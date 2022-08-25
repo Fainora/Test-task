@@ -10,7 +10,7 @@ class Lead extends Model
     protected $table = 'leads';
     protected $guarded = false;
     public $timestamps = false;
-
+    protected $dates = ['date_create', 'last_modified', 'date_close'];
 
 
     public function account()

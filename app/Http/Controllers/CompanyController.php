@@ -49,7 +49,7 @@ class CompanyController extends Controller
 
                 $offset += 250;
                 // Поставила ограничение временно, т.к. слишком много данных
-            } while ($offset < $company_count);
+            } while ($count > 300/*$offset < $company_count*/);
         } catch (\Exception $e) {
             echo 'Exception when calling CompanyApi->getAll: ', $e->getMessage(), PHP_EOL;
         }

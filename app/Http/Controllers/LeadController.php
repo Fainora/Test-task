@@ -53,7 +53,7 @@ class LeadController extends Controller
                                 'last_modified' => $result['result'][$i]['last_modified'],
                                 'price' => $result['result'][$i]['price'],
                                 'responsible_user_id' => $result['result'][$i]['responsible_user_id'],
-                                //'linked_company_id' => (int) $result['result'][$i]['linked_company_id'],
+                                'linked_company_id' => (int) $result['result'][$i]['linked_company_id'],
                                 'pipeline_id' => $result['result'][$i]['pipeline_id'],
                                 'date_close' => $result['result'][$i]['date_close'],
                                 'status_id' => $result['result'][$i]['status_id']
