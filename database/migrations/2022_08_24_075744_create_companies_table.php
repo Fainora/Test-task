@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('login');
-            $table->string('amo_profile_id')->nullable();
+            $table->integer('date_create');
+            //$table->foreignID('created_user_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignID('responsible_user_id')->nullable()->constrained('users')->onDelete('cascade');
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('companies');
     }
 };
