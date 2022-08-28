@@ -11,7 +11,7 @@ class IndexController extends Controller
     public function index() {
         require_once base_path() . '/vendor/autoload.php';
 
-        Configuration::getDefaultConfiguration()->setApiKey('key', 'YOUR KEY');
+        Configuration::getDefaultConfiguration()->setApiKey('key', '23bc075b710da43f0ffb50ff9e889aed');
         $api = new ApiClient();
 
         try {

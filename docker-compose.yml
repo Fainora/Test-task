@@ -1,33 +1,66 @@
-version: '3'
+version: '3.1'
 
 services:
   nginx:
     image: nginx:latest
     volumes:
       - ./:/var/www
-      - ./_docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./storage/app/public:/var/www/public/storage
     ports:
-      - 8876:80
+      - "80:80"
     depends_on:
       - app
-    container_name: test-task_nginx
+    container_name: ${PROJECT_NAME}-nginx
+    networks:
+      - travellist
 
   app:
     build:
       context: .
-      dockerfile: _docker/app/Dockerfile
+      dockerfile: docker/app/Dockerfile
     volumes:
       - ./:/var/www
-    container_name: test-task_app
+    container_name: ${PROJECT_NAME}-app
     depends_on:
       - db
+      - cache
+    networks:
+      - travellist
 
   db:
     image: postgres:14.5
     restart: always
     environment:
-        POSTGRES_PASSWORD: root
-        POSTGRES_USER: postgres
+        POSTGRES_DB: ${DB_DATABASE}
+        POSTGRES_USER: ${DB_USERNAME}
+        POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - 5432:5432
-    container_name: task_db
+      - "5432:5432"
+    volumes:
+      - ./docker/postgres/datadir:/var/lib/postgresql/data
+    container_name: ${PROJECT_NAME}-postgres
+    networks:
+      - travellist
+
+  cache:
+    image: memcached
+
+  nodejs:
+    image: "node"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=dev
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - "8081"
+    command: "npm start"
+    container_name: ${PROJECT_NAME}-nodejs
+    networks:
+      - travellist
+
+networks:
+  travellist:
+    driver: bridge
